@@ -1,0 +1,13 @@
+# package directories
+node_modules
+jspm_packages
+
+src/config/local.json
+src/config/development.json
+src/config/production.json
+
+# Serverless directories
+.serverless
+
+# webstorm
+.idea

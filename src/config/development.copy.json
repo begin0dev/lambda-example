@@ -1,0 +1,16 @@
+{
+  "mysql": {
+    "database": "",
+    "username": "",
+    "password": "",
+    "options": {
+      "host": "",
+      "port": "",
+      "dialect": "mysql",
+      "operatorsAliases": false,
+      "pool": {
+        "max": 5
+      }
+    }
+  }
+}

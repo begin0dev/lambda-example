@@ -1,0 +1,33 @@
+service:
+  name: lambda-example
+
+custom:
+  webpackIncludeModules: true
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: ap-northeast-2
+  profile: lambdaExample
+  vpc:
+    securityGroupIds:
+      - sg-a3b46fc9
+      - sg-4d552126
+    subnetIds:
+      - subnet-306a0358
+      - subnet-ff0cd3b3
+
+functions:
+  api:
+    handler: src/server.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors:
+            origin: '*'
+      - http:
+          path: /{any+} # this matches any path, the token 'any' doesn't mean anything special
+          method: ANY
+          cors:
+            origin: '*'
