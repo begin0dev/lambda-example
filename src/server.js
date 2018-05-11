@@ -7,6 +7,10 @@ const router = require('./router');
 const app = express();
 const port = 4000;
 
+// init express setting
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // database setting
 db.sequelize.sync().then(() => {
   console.log('DB Connection has been established');
@@ -14,23 +18,24 @@ db.sequelize.sync().then(() => {
   console.error('Unable to connect to the DB:', err);
 });
 
-// init express setting
-app.use(express.json());
-
 // setting router
 app.use('/api', router);
 
 // error handler
-app.use((err, req, res, next) => {
-  console.error('---------------- ERROR ----------------');
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
   console.error(err.message);
-  // TODO slack 추가 필요 production 일 때만
-  res.status(500).json({
+  next(err);
+});
+
+app.use((err, req, res) => {
+  console.error(err.message);
+  res.status(err.status || 500).json({
     error: {
       message: err.message,
     },
   });
-  next();
 });
 
 // local port
